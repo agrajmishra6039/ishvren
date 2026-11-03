@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISHVREN — Websites &amp; Automation, Explained</title>
+<meta name="description" content="A plain-English guide to websites and automation: what they are, who uses them, how both are used together, and the benefits of automating a website.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="ISHVREN — Websites & Automation, Explained">
+<meta property="og:description" content="What websites and automation actually do — and why they belong together.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23000'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-size='42' fill='%23c99a6b' text-anchor='middle'%3EI%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ISHVREN — shared visual system (guide page)
+   Same deep-black stage, liquid bronze shader and grid
+   ============================================================ */
+:root{
+  --bg:#000000;--cream:#fff6ed;--body:#d1d5db;
+  --bronze:#c99a6b;--bronze-2:#e7c49c;
+  --line:rgba(255,255,255,.12);--line-soft:rgba(255,255,255,.065);
+  --serif:'Italiana',Georgia,'Times New Roman',serif;
+  --sans:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --pad:clamp(20px,4.2vw,68px);--h:70px;--ease:cubic-bezier(.22,.61,.21,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scrollbar-width:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--body);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.68;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.menu-open{overflow:hidden}
+svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0}
+p{margin:0 0 1em}
+h1,h2,h3,h4{margin:0;font-weight:400}
+::selection{background:rgba(201,154,107,.32);color:#fff6ed}
+:focus-visible{outline:2px solid var(--bronze-2);outline-offset:3px;border-radius:2px}
+.skip-link{position:fixed;left:16px;top:-80px;z-index:400;background:var(--cream);color:#0a0806;padding:12px 18px;font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;transition:top .2s}
+.skip-link:focus{top:14px}
+
+/* ---------- stage ---------- */
+.fallback{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(115% 88% at 64% 6%,rgba(145,99,57,.44) 0%,rgba(66,42,22,.20) 38%,rgba(0,0,0,0) 68%),
+  radial-gradient(80% 65% at 16% 34%,rgba(96,63,35,.20),transparent 62%),
+  radial-gradient(120% 95% at 50% 104%,rgba(22,55,92,.40),transparent 72%),
+  linear-gradient(180deg,#0d0906 0%,#050403 48%,#03101c 100%);
+  animation:fallbackBreath 26s ease-in-out infinite alternate}
+@keyframes fallbackBreath{from{transform:scale(1);filter:saturate(.95) brightness(.92)}to{transform:scale(1.045);filter:saturate(1.08) brightness(1.06)}}
+#webgl{position:fixed;inset:0;z-index:1;width:100%;height:100%;display:block;pointer-events:none;opacity:0;transition:opacity 1.8s var(--ease)}
+body.webgl-ready #webgl{opacity:1}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.055;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.gridlines{position:fixed;inset:0;z-index:3;pointer-events:none}
+.gl{position:absolute;top:var(--h);bottom:0;width:1px;background:rgba(255,255,255,.12);opacity:1}
+.gl:nth-of-type(1){left:16.666%}.gl:nth-of-type(2){left:33.333%}.gl:nth-of-type(3){left:50%}.gl:nth-of-type(4){left:66.666%}.gl:nth-of-type(5){left:83.333%}
+.gdot{position:absolute;left:-2px;width:5px;height:5px;border-radius:50%;background:rgba(255,246,237,.55);box-shadow:0 0 12px rgba(231,196,156,.55);animation:drift 23s ease-in-out infinite alternate}
+.gdot.d1{top:22%;animation-duration:27s}
+.gdot.d2{top:66%;animation-delay:-9s;animation-duration:19s}
+@keyframes drift{from{transform:translateY(-18px);opacity:.22}to{transform:translateY(26px);opacity:.85}}
+.scroll-prog{position:absolute;left:calc(83.333% - .5px);top:calc(var(--h) + 28px);bottom:28px;width:1px;background:rgba(255,255,255,.09)}
+.scroll-prog .fill{position:absolute;inset:0;transform:scaleY(var(--sp,0));transform-origin:top;background:linear-gradient(180deg,var(--bronze-2),rgba(201,154,107,.18));transition:transform .12s linear}
+.scroll-prog .head{position:absolute;top:calc(var(--sp,0) * 100%);left:-3px;width:7px;height:7px;margin-top:-3.5px;border:1px solid var(--bronze-2);border-radius:50%;background:#080604;box-shadow:0 0 14px rgba(231,196,156,.55);transition:top .12s linear}
+
+/* ---------- header ---------- */
+.site-header{position:fixed;top:0;left:0;right:0;height:var(--h);z-index:100;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 var(--pad);border-bottom:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,.16));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .4s}
+.site-header.scrolled{background:rgba(0,0,0,.78)}
+.brand{display:inline-flex;align-items:center;gap:12px;font-size:14px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:var(--cream);line-height:1}
+.brand .mark{width:20px;height:20px;border:1px solid rgba(231,196,156,.55);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:12px;letter-spacing:0;color:var(--bronze-2);flex:none;transition:transform .5s var(--ease),border-color .4s}
+.brand:hover .mark{transform:rotate(180deg);border-color:var(--bronze-2)}
+.nav{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center}
+.nav a{position:relative;padding:9px 16px;font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;color:rgba(246,242,235,.66);transition:color .3s;white-space:nowrap}
+.nav a+a::before{content:'';position:absolute;left:0;top:50%;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.38);transform:translateY(-50%)}
+.nav a:hover{color:var(--cream)}
+.header-right{display:flex;align-items:center;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:11px;height:38px;padding:0 7px 0 18px;border:1px solid var(--cream);border-radius:999px;background:var(--cream);color:#0a0806;font-size:10.5px;font-weight:600;letter-spacing:2.1px;text-transform:uppercase;transition:transform .35s var(--ease),box-shadow .35s,background .35s}
+.pill:hover{background:#fff;transform:translateY(-1px);box-shadow:0 0 34px rgba(231,196,156,.28)}
+.pill .ring{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(0,0,0,.28);box-shadow:inset 0 0 0 2px rgba(0,0,0,.05)}
+.pill .ring svg{width:10px;height:10px}
+.menu-btn{display:none;align-items:center;gap:9px;height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;color:var(--cream);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.menu-btn .bars{width:14px;height:9px;position:relative}
+.menu-btn .bars::before,.menu-btn .bars::after{content:'';position:absolute;left:0;right:0;height:1px;background:currentColor;transition:transform .3s,top .3s}
+.menu-btn .bars::before{top:1px}.menu-btn .bars::after{top:7px}
+body.menu-open .menu-btn .bars::before{top:4px;transform:rotate(45deg)}
+body.menu-open .menu-btn .bars::after{top:4px;transform:rotate(-45deg)}
+.menu-overlay{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--h) + 40px) var(--pad) 32px;background:rgba(3,2,1,.97);backdrop-filter:blur(18px);opacity:0;visibility:hidden;overflow-y:auto;overscroll-behavior:contain;transition:opacity .45s var(--ease),visibility .45s}
+.menu-overlay.open{opacity:1;visibility:visible}
+.menu-overlay nav{display:flex;flex-direction:column;gap:6px}
+.menu-overlay nav a{font-family:var(--serif);font-size:clamp(28px,8vw,46px);line-height:1.25;color:var(--cream);border-bottom:1px solid var(--line-soft);padding:10px 0;display:flex;align-items:baseline;gap:16px}
+.menu-overlay nav a small{font-family:var(--sans);font-size:10px;letter-spacing:2px;color:var(--bronze)}
+.menu-foot{display:flex;flex-direction:column;gap:6px;font-size:13px;color:rgba(209,213,219,.75)}
+.menu-foot a{color:var(--cream)}
+
+/* ---------- layout & type ---------- */
+main{position:relative;z-index:10}
+.container{width:100%;max-width:1460px;margin:0 auto;padding:0 var(--pad)}
+.kicker{display:flex;align-items:center;gap:12px;margin:0 0 14px;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:rgba(231,196,156,.92)}
+.kicker::before{content:'';width:26px;height:1px;background:rgba(231,196,156,.55);flex:none}
+.word{display:inline-block;white-space:nowrap}
+.char{display:inline-block;opacity:0;transform:translateY(50px);filter:blur(12px);transition:transform 1s var(--ease),opacity .85s ease,filter 1s var(--ease);transition-delay:var(--d,0s)}
+.is-in .char{opacity:1;transform:translateY(0);filter:blur(0)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 1s ease,transform 1s var(--ease);transition-delay:.4s}
+.reveal.is-in{opacity:1;transform:translateY(0)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:13px;min-height:52px;padding:0 26px;border:1px solid transparent;border-radius:2px;font-size:10.5px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;line-height:1.2;transition:background .35s,border-color .35s,color .35s,transform .35s var(--ease),box-shadow .35s}
+.btn svg{width:14px;height:14px;flex:none;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn-light{background:var(--cream);border-color:var(--cream);color:#0a0806}
+.btn-light:hover{background:var(--bronze-2);border-color:var(--bronze-2);box-shadow:0 14px 44px rgba(201,154,107,.2);transform:translateY(-2px)}
+.btn-ghost{border-color:rgba(255,255,255,.26);color:var(--cream);background:rgba(0,0,0,.22);backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:rgba(231,196,156,.7);background:rgba(201,154,107,.09);transform:translateY(-2px)}
+.link-arrow{display:inline-flex;align-items:center;gap:10px;color:var(--cream);font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid rgba(231,196,156,.4);transition:border-color .3s,color .3s}
+.link-arrow svg{width:14px;height:14px;transition:transform .3s}
+.link-arrow:hover{border-color:var(--bronze-2);color:var(--bronze-2)}
+.link-arrow:hover svg{transform:translate(2px,-2px)}
+.panel{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:3px;background:linear-gradient(150deg,rgba(255,255,255,.052),rgba(255,255,255,.012) 48%,rgba(18,32,48,.16));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.panel::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 110% at 88% 0%,rgba(201,154,107,.14),transparent 62%)}
+
+/* ============================================================
+   GUIDE PAGE
+   ============================================================ */
+.guide-hero{position:relative;padding-top:calc(var(--h) + clamp(48px,8vh,96px));padding-bottom:clamp(26px,4vw,46px)}
+.guide-hero::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(88% 88% at 26% 44%,rgba(0,0,0,.58),rgba(0,0,0,.18) 58%,transparent 80%)}
+.guide-hero .container{position:relative;z-index:1}
+.guide-topline{display:flex;justify-content:space-between;align-items:center;gap:18px;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(209,213,219,.55);margin-bottom:clamp(20px,3.4vh,34px)}
+.guide-topline i{width:5px;height:5px;border-radius:50%;background:var(--bronze);box-shadow:0 0 12px rgba(201,154,107,.8);display:inline-block;margin-right:8px}
+.guide-title{font-family:var(--serif);font-weight:400;color:var(--cream);font-size:clamp(44px,8vw,116px);line-height:.98;letter-spacing:-.004em;margin:0;max-width:17ch;text-wrap:balance;text-shadow:0 20px 70px rgba(0,0,0,.5)}
+.guide-title .accent{font-style:italic;color:rgba(231,196,156,.94)}
+.guide-intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:clamp(24px,4vw,64px);align-items:end;margin-top:clamp(24px,4vh,40px);padding-bottom:clamp(22px,3vw,32px);border-bottom:1px solid var(--line)}
+.guide-lead{font-family:var(--serif);font-size:clamp(20px,2.3vw,30px);line-height:1.32;color:rgba(255,246,237,.96);margin:0 0 14px;max-width:44ch;text-shadow:0 1px 26px rgba(0,0,0,.5)}
+.guide-desc{font-size:13.5px;line-height:1.8;color:rgba(209,213,219,.8);margin:0;max-width:56ch;text-shadow:0 1px 24px rgba(0,0,0,.5)}
+.guide-toc{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.guide-toc a{display:flex;align-items:baseline;gap:13px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:11.5px;letter-spacing:.02em;color:rgba(209,213,219,.74);transition:color .3s,padding .3s}
+.guide-toc a span{font-size:8px;letter-spacing:1.7px;color:var(--bronze-2);min-width:16px}
+.guide-toc a:hover{color:var(--cream);padding-left:4px}
+.guide-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;padding:14px 0 0;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(209,213,219,.42)}
+.guide-body{padding-top:clamp(16px,2vw,28px)}
+
+.guide-section{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:clamp(24px,5vw,76px);padding:clamp(44px,6vw,78px) 0;border-top:1px solid var(--line);scroll-margin-top:calc(var(--h) + 20px)}
+.guide-side{position:sticky;top:calc(var(--h) + 30px);align-self:start}
+.guide-num{font-size:8.5px;letter-spacing:2.3px;text-transform:uppercase;color:var(--bronze-2);margin:0 0 12px}
+.guide-side h2{font-family:var(--serif);font-size:clamp(30px,3.6vw,46px);line-height:1.06;color:var(--cream);margin:0 0 12px;text-shadow:0 1px 24px rgba(0,0,0,.5)}
+.guide-note{font-size:11.5px;line-height:1.75;color:rgba(209,213,219,.55);max-width:26ch;margin:0}
+.guide-content{position:relative;min-width:0}
+.guide-content::before{content:'';position:absolute;inset:-5% -7%;z-index:-1;pointer-events:none;background:radial-gradient(72% 62% at 44% 46%,rgba(0,0,0,.5),rgba(0,0,0,.12) 60%,transparent 82%)}
+.guide-content p{font-size:13.5px;line-height:1.9;color:rgba(209,213,219,.86);margin:0 0 15px}
+.guide-content .guide-statement{font-family:var(--serif);font-size:clamp(20px,2.1vw,28px);line-height:1.42;color:rgba(255,246,237,.97);margin-bottom:18px;max-width:40ch}
+.guide-content strong{color:var(--cream);font-weight:400}
+.definition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0}
+.definition{border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.032);padding:16px 18px}
+.definition span{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bronze-2);margin-bottom:7px}
+.definition p{margin:0;font-size:11.5px;line-height:1.7;color:rgba(209,213,219,.72)}
+.subhead{font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);line-height:1.15;color:var(--cream);margin:32px 0 14px}
+.use-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:4px}
+.use-card{border-top:1px solid var(--line);padding-top:12px}
+.use-card span{font-size:8px;letter-spacing:1.8px;color:rgba(231,196,156,.75)}
+.use-card h4{font-size:13px;font-weight:400;color:var(--cream);margin:5px 0 4px;letter-spacing:.01em}
+.use-card p{font-size:11px;line-height:1.65;color:rgba(209,213,219,.62);margin:0}
+.guide-content .guide-callout{border-left:1px solid rgba(231,196,156,.5);padding:2px 0 2px 18px;margin:27px 0 0;font-family:var(--serif);font-size:clamp(17px,1.8vw,21px);line-height:1.55;color:rgba(255,246,237,.9)}
+.audience-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.audience{border:1px solid var(--line);border-radius:3px;padding:18px;background:linear-gradient(158deg,rgba(255,255,255,.052),rgba(255,255,255,.012) 55%,rgba(201,154,107,.03));backdrop-filter:blur(14px);transition:border-color .4s,transform .4s var(--ease)}
+.audience:hover{border-color:rgba(231,196,156,.4);transform:translateY(-3px)}
+.audience span{font-size:8px;letter-spacing:1.9px;text-transform:uppercase;color:var(--bronze-2)}
+.audience h3{font-family:var(--serif);font-size:clamp(21px,2vw,26px);color:var(--cream);margin:7px 0 8px}
+.audience p{font-size:11px;line-height:1.7;color:rgba(209,213,219,.65);margin:0 0 12px}
+.audience ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.audience li{position:relative;padding-left:12px;font-size:10.5px;line-height:1.55;color:rgba(209,213,219,.76)}
+.audience li::before{content:'';position:absolute;left:0;top:.58em;width:4px;height:4px;border:1px solid rgba(231,196,156,.6);border-radius:50%}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:22px 0 28px;padding:16px;border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.03);backdrop-filter:blur(12px)}
+.flow-step{border-top:1px solid rgba(231,196,156,.32);padding-top:10px;min-width:0}
+.flow-step span{font-size:7.5px;letter-spacing:1.6px;color:var(--bronze-2)}
+.flow-step h4{font-size:11px;font-weight:400;color:var(--cream);line-height:1.3;margin:4px 0 3px}
+.flow-step p{font-size:9.5px;line-height:1.5;color:rgba(209,213,219,.55);margin:0}
+.benefit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px;margin-top:20px}
+.benefit{border-top:1px solid var(--line);padding:16px 0}
+.benefit span{font-size:8px;letter-spacing:1.9px;color:rgba(231,196,156,.72)}
+.benefit h3{font-family:var(--serif);font-size:clamp(18px,1.9vw,22px);line-height:1.2;color:var(--cream);margin:5px 0 5px}
+.benefit p{font-size:11px;line-height:1.7;color:rgba(209,213,219,.62);margin:0}
+.guide-cta{margin-top:26px;padding:clamp(22px,3vw,34px)}
+.guide-cta h3{font-family:var(--serif);font-size:clamp(24px,2.6vw,32px);line-height:1.15;color:var(--cream);margin:0 0 10px;max-width:22ch}
+.guide-cta p{font-size:12px;line-height:1.8;color:rgba(209,213,219,.7);margin:0;max-width:50ch}
+.guide-cta .kicker{font-size:9px;letter-spacing:2.8px;color:rgba(231,196,156,.92);margin-bottom:12px}
+.guide-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 14px}
+.guide-actions .btn{flex:1;min-width:180px}
+.guide-small{font-size:10px!important;line-height:1.8!important;color:rgba(209,213,219,.46)!important;margin:0!important}
+.guide-small a{color:rgba(231,196,156,.85);border-bottom:1px solid rgba(231,196,156,.3)}
+
+/* ---------- footer, cursor, veil ---------- */
+.site-footer{position:relative;z-index:10;border-top:1px solid var(--line);background:rgba(0,0,0,.42);backdrop-filter:blur(10px)}
+.footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;padding:24px 0}
+.footer-brand{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:10px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(209,213,219,.46)}
+.footer-brand strong{font-size:11px;letter-spacing:4px;color:var(--cream);font-weight:600}
+.footer-links{display:flex;flex-wrap:wrap;align-items:center;gap:9px 20px;font-size:10px;letter-spacing:1.9px;text-transform:uppercase;color:rgba(209,213,219,.6)}
+.footer-links a{transition:color .3s}
+.footer-links a:hover{color:var(--bronze-2)}
+.footer-links .sep{width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.24)}
+.cursor{position:fixed;top:0;left:0;z-index:600;pointer-events:none;border-radius:50%;display:none;will-change:transform}
+.cursor-inner{width:8px;height:8px;margin:-4px 0 0 -4px;border:1px solid rgba(255,246,237,.9);background:rgba(255,246,237,.12);transition:opacity .3s,background .3s}
+.cursor-outer{width:40px;height:40px;margin:-20px 0 0 -20px;border:1px solid rgba(231,196,156,.48);transition:opacity .3s,border-color .3s,background .3s}
+body.has-cursor .cursor{display:block}
+body.has-cursor,body.has-cursor a,body.has-cursor button{cursor:none}
+body.has-cursor .cursor-outer.is-hover{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:rgba(231,196,156,.8);background:rgba(201,154,107,.06)}
+.cursor.is-hidden{opacity:0}
+.page-veil{position:fixed;inset:0;z-index:550;background:#000;pointer-events:none;opacity:1;transition:opacity .45s ease;display:grid;place-items:center}
+.page-veil::after{content:'ISHVREN';font-family:var(--serif);font-size:clamp(24px,4vw,40px);letter-spacing:.34em;padding-left:.34em;color:rgba(255,246,237,.9);opacity:0;transition:opacity .35s}
+body.veil-brand .page-veil::after{opacity:1}
+body.ready .page-veil{opacity:0}
+body.leaving .page-veil{opacity:1;pointer-events:auto}
+
+/* ---------- responsive ---------- */
+@media(max-width:1100px){
+  .nav{display:none}
+  .menu-btn{display:inline-flex}
+}
+@media(max-width:980px){
+  .guide-intro{grid-template-columns:1fr;align-items:start;gap:22px}
+  .guide-toc{width:100%}
+  .guide-section{grid-template-columns:1fr;gap:24px}
+  .guide-side{position:static}
+  .guide-note{max-width:44ch}
+  .audience-grid{grid-template-columns:1fr}
+  .use-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow-step:last-child{grid-column:1/-1}
+}
+@media(max-width:767px){
+  :root{--pad:20px}
+  .site-header{gap:10px}
+  .brand{font-size:12px;letter-spacing:3.4px;gap:9px}
+  .brand .mark{width:18px;height:18px;font-size:10px}
+  .pill{height:34px;padding:0 5px 0 12px;font-size:8.5px;letter-spacing:1.5px;gap:7px}
+  .pill .ring{width:21px;height:21px}
+  .menu-btn{height:34px;padding:0 11px}
+  .menu-btn>span:last-child{display:none}
+  .guide-hero{padding-top:calc(var(--h) + 32px);padding-bottom:20px}
+  .guide-title{font-size:clamp(42px,11.4vw,62px);line-height:1.02;max-width:14ch}
+  .guide-topline{font-size:8px;letter-spacing:1.8px;margin-bottom:16px}
+  .guide-topline .top-right{display:none}
+  .guide-intro{margin-top:20px;padding-bottom:18px;gap:18px}
+  .guide-lead{font-size:21px;line-height:1.3}
+  .guide-desc{font-size:12.5px;line-height:1.75}
+  .guide-toc a{padding:8px 0;font-size:11px}
+  .guide-meta{font-size:7.5px;letter-spacing:1.6px;padding-top:12px}
+  .guide-section{padding:38px 0;scroll-margin-top:calc(var(--h) + 8px)}
+  .guide-side h2{font-size:clamp(28px,9vw,38px)}
+  .guide-note{font-size:11px}
+  .guide-content p{font-size:12.5px;line-height:1.85}
+  .guide-statement{font-size:20px;line-height:1.4}
+  .definition-grid{grid-template-columns:1fr}
+  .use-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;padding:14px}
+  .flow-step:last-child{grid-column:auto}
+  .benefit-grid{grid-template-columns:1fr}
+  .guide-cta{padding:20px}
+  .guide-actions .btn{flex-basis:100%;min-width:0;padding:0 14px;font-size:9.5px;letter-spacing:1.8px}
+  .audience{padding:16px}
+  .gridlines .gl:nth-of-type(2),.gridlines .gl:nth-of-type(4){opacity:.35}
+  .scroll-prog{display:none}
+  .footer-inner{flex-direction:column;align-items:flex-start;gap:14px;padding:22px 0}
+  .footer-brand{font-size:9px;gap:10px}
+  .footer-brand strong{font-size:10px}
+  .menu-overlay nav a{font-size:clamp(24px,7.6vw,34px)}
+}
+@media(max-width:390px){
+  .guide-title{font-size:clamp(38px,10.8vw,50px)}
+}
+@media(hover:none),(pointer:coarse){
+  .cursor{display:none!important}
+  body.has-cursor,body.has-cursor *{cursor:auto!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .char,.reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .page-veil{display:none}
+  #webgl{opacity:1}
+  .fallback{animation:none}
+}
+</style>
+<noscript><style>.page-veil{display:none}.char,.reveal{opacity:1!important;transform:none!important;filter:none!important}#webgl{display:none}</style></noscript>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body data-page="guide">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="fallback" aria-hidden="true"></div>
+<canvas id="webgl" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="gridlines" aria-hidden="true">
+  <div class="gl"><i class="gdot d1"></i><i class="gdot d2"></i></div>
+  <div class="gl"><i class="gdot d1"></i><i class="gdot d2"></i></div>
+  <div class="gl"><i class="gdot d1"></i><i class="gdot d2"></i></div>
+  <div class="gl"><i class="gdot d1"></i><i class="gdot d2"></i></div>
+  <div class="gl"><i class="gdot d1"></i><i class="gdot d2"></i></div>
+  <div class="scroll-prog"><span class="fill"></span><span class="head"></span></div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="index.html" aria-label="ISHVREN home"><span class="mark" aria-hidden="true">I</span>ISHVREN</a>
+  <nav class="nav" aria-label="Primary">
+    <a href="index.html">Home</a>
+    <a href="#websites">Websites</a>
+    <a href="#automation">Automation</a>
+    <a href="#together">Together</a>
+    <a href="#benefits">Benefits</a>
+  </nav>
+  <div class="header-right">
+    <a class="pill" href="index.html#contact">Contact
+      <span class="ring" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9 9 3M4 3h5v5"/></svg></span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menuOverlay" aria-label="Open menu"><span class="bars" aria-hidden="true"></span><span>Menu</span></button>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <nav aria-label="Mobile navigation">
+    <a href="index.html"><small>01</small>Home</a>
+    <a href="#websites"><small>02</small>Websites</a>
+    <a href="#automation"><small>03</small>Automation</a>
+    <a href="#who"><small>04</small>Who it's for</a>
+    <a href="#benefits"><small>05</small>Benefits</a>
+    <a href="pricing.html"><small>06</small>Our charges</a>
+  </nav>
+  <div class="menu-foot">
+    <a href="https://wa.me/917302705904">WhatsApp · 7302705904</a>
+    <a href="mailto:nexbrocode@gmail.com">nexbrocode@gmail.com</a>
+    <span>Instagram · <a href="https://instagram.com/ishvren.tech" target="_blank" rel="noopener">@ishvren.tech</a></span>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
+  <!-- ================= GUIDE HERO ================= -->
+  <section class="guide-hero" id="top" aria-labelledby="guideTitle">
+    <div class="container">
+      <div class="guide-topline">
+        <span><i aria-hidden="true"></i>The ISHVREN guide</span>
+        <span class="top-right">Websites · Automation · Both</span>
+      </div>
+      <p class="kicker">Plain English · No jargon</p>
+      <h1 class="guide-title" id="guideTitle" data-split>Websites &amp; automation, <span class="accent">explained.</span></h1>
+      <div class="guide-intro">
+        <div>
+          <p class="guide-lead">A website is how a business is found. Automation is how it keeps working after the first message.</p>
+          <p class="guide-desc">This guide explains both in ordinary language — what they are, who uses them, and what changes when a website and its automation are built as one system.</p>
+        </div>
+        <nav class="guide-toc" aria-label="On this page">
+          <a href="#websites"><span>01</span>What is a website?</a>
+          <a href="#automation"><span>02</span>What is automation?</a>
+          <a href="#who"><span>03</span>Who uses it?</a>
+          <a href="#together"><span>04</span>Better together</a>
+          <a href="#benefits"><span>05</span>The benefits</a>
+        </nav>
+      </div>
+      <div class="guide-meta">
+        <span>Reading time · about 6 minutes</span>
+        <span>Written by Agraj &amp; Sampann Mishra · ISHVREN</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="guide-body">
+    <div class="container">
+      <!-- 01 WEBSITES -->
+      <section class="guide-section" id="websites" aria-labelledby="websitesHead">
+        <div class="guide-side">
+          <p class="guide-num">01 / The website</p>
+          <h2 id="websitesHead">What is a website?</h2>
+          <p class="guide-note">Your digital front door — open at every hour, on every device.</p>
+        </div>
+        <div class="guide-content reveal">
+          <p class="guide-statement">A website is the online home of your business: the place someone lands after searching, seeing a post, or being recommended by a friend.</p>
+          <p>More than a page, it is a small, self-contained picture of what you do. It carries your story, your services, your photographs and the next step you would like a visitor to take.</p>
+          <p>A good website does not try to say everything. It answers the few questions a ready customer actually has, then makes it effortless to call, message, book or visit.</p>
+          <div class="definition-grid">
+            <div class="definition"><span>Web development</span><p>The design and engineering of the site — structure, words, visuals, code, speed and behaviour on every screen size.</p></div>
+            <div class="definition"><span>The job it does</span><p>Helps the right person find you, understand what you offer, decide to trust you, and take the next step.</p></div>
+          </div>
+          <h3 class="subhead">How a website is used</h3>
+          <div class="use-grid">
+            <div class="use-card"><span>01</span><h4>To be found</h4><p>Clear pages and the right words give search engines and people a reason to arrive.</p></div>
+            <div class="use-card"><span>02</span><h4>To build trust</h4><p>A considered design, real information and a little restraint make a small business feel established.</p></div>
+            <div class="use-card"><span>03</span><h4>To start a conversation</h4><p>One obvious call, form, WhatsApp button or booking link turns interest into an enquiry.</p></div>
+            <div class="use-card"><span>04</span><h4>To stay current</h4><p>Hours, prices, services and photographs stay accurate — so customers always know what to expect.</p></div>
+          </div>
+          <p class="guide-callout">A website is not a brochure that sits still. It is the part of your business that answers the same first questions, every day, without being asked.</p>
+        </div>
+      </section>
+
+      <!-- 02 AUTOMATION -->
+      <section class="guide-section" id="automation" aria-labelledby="automationHead">
+        <div class="guide-side">
+          <p class="guide-num">02 / The system</p>
+          <h2 id="automationHead">What is automation?</h2>
+          <p class="guide-note">The quiet work that happens after someone says hello.</p>
+        </div>
+        <div class="guide-content reveal">
+          <p class="guide-statement">Automation is software doing the repetitive parts on its own — so your team does not have to copy the same information from one place to another.</p>
+          <p>It links the tools you already use. An enquiry from your website can be saved to a sheet, sent as a WhatsApp message, placed in the right inbox and followed up — without anyone remembering to do it.</p>
+          <p>It is not robots replacing people. It is the predictable middle of a process being handled reliably, so people can spend their attention on the part only a person can do.</p>
+          <div class="definition-grid">
+            <div class="definition"><span>In one line</span><p>Connecting apps and rules so routine work happens automatically, consistently and on time.</p></div>
+            <div class="definition"><span>What it is not</span><p>It is not about removing care from your business. Well-built automation removes friction and leaves the human moments intact.</p></div>
+          </div>
+          <h3 class="subhead">How automation is used</h3>
+          <div class="use-grid">
+            <div class="use-card"><span>01</span><h4>Answering enquiries</h4><p>A new enquiry receives a helpful instant reply and a note of when a person will follow up.</p></div>
+            <div class="use-card"><span>02</span><h4>Keeping a single list</h4><p>Forms and WhatsApp conversations are saved neatly to one sheet or CRM, with no double entry.</p></div>
+            <div class="use-card"><span>03</span><h4>Reminders &amp; follow-ups</h4><p>Appointments, quotes and check-ins are nudged at the right time, not when someone remembers.</p></div>
+            <div class="use-card"><span>04</span><h4>Internal handoffs</h4><p>The right person is alerted with the right details, so nothing waits in an inbox overnight.</p></div>
+            <div class="use-card"><span>05</span><h4>Simple reporting</h4><p>A weekly count of enquiries, bookings or jobs arrives without anyone building a spreadsheet.</p></div>
+            <div class="use-card"><span>06</span><h4>AI-assisted drafting</h4><p>Replies and summaries can be prepared for a person to review — faster, but still human-approved.</p></div>
+          </div>
+          <p class="guide-callout">Good automation is invisible. You notice it because the work is calmer, the replies are quicker, and enquiries stop slipping through the gaps.</p>
+        </div>
+      </section>
+
+      <!-- 03 WHO USES IT -->
+      <section class="guide-section" id="who" aria-labelledby="whoHead">
+        <div class="guide-side">
+          <p class="guide-num">03 / Who it is for</p>
+          <h2 id="whoHead">Built around everyday work.</h2>
+          <p class="guide-note">Different businesses, the same quiet need: less repetition, faster replies.</p>
+        </div>
+        <div class="guide-content reveal">
+          <p class="guide-statement">Websites and automation are not only for large companies. They are especially useful where a small team handles a steady stream of enquiries.</p>
+          <p>From a local shop to a growing service business or a healthcare clinic, the pattern is similar. Someone needs information, a message arrives, and the business has to notice, reply and keep a record. Automation makes that sequence reliable.</p>
+          <div class="audience-grid">
+            <article class="audience">
+              <span>01 · Local</span>
+              <h3>Local businesses</h3>
+              <p>A clear, credible website and quick replies where customers already message you.</p>
+              <ul>
+                <li>Services, hours and location in one place</li>
+                <li>WhatsApp enquiries captured automatically</li>
+                <li>Reminders and follow-ups for bookings</li>
+              </ul>
+            </article>
+            <article class="audience">
+              <span>02 · Business</span>
+              <h3>Growing companies</h3>
+              <p>Consistent lead handling when more than one person is involved.</p>
+              <ul>
+                <li>Leads routed to the right person</li>
+                <li>Sheet or CRM kept up to date</li>
+                <li>Quote follow-ups and reporting</li>
+              </ul>
+            </article>
+            <article class="audience">
+              <span>03 · Healthcare</span>
+              <h3>Healthcare providers</h3>
+              <p>Less front-desk repetition, without adding complexity for patients.</p>
+              <ul>
+                <li>Appointment request forms</li>
+                <li>Automatic confirmations and reminders</li>
+                <li>Neat intake details before a visit</li>
+              </ul>
+            </article>
+          </div>
+          <p class="guide-callout">The aim is never to remove the human touch. It is to stop routine admin from getting in the way of it.</p>
+        </div>
+      </section>
+
+      <!-- 04 TOGETHER -->
+      <section class="guide-section" id="together" aria-labelledby="togetherHead">
+        <div class="guide-side">
+          <p class="guide-num">04 / Better together</p>
+          <h2 id="togetherHead">A website that answers back.</h2>
+          <p class="guide-note">One journey, from first visit to a real conversation.</p>
+        </div>
+        <div class="guide-content reveal">
+          <p class="guide-statement">A website gives automation somewhere to begin. Automation gives the website something to finish.</p>
+          <p>On its own, a website collects an enquiry and waits for someone to notice. On its own, automation has nowhere to start if there is no structured way to capture interest. Together, they form a complete path.</p>
+          <div class="flow" aria-label="How a website and automation work together">
+            <div class="flow-step"><span>01</span><h4>The visit</h4><p>Someone finds the site and understands the service.</p></div>
+            <div class="flow-step"><span>02</span><h4>The enquiry</h4><p>A form or WhatsApp button captures the details.</p></div>
+            <div class="flow-step"><span>03</span><h4>The record</h4><p>The lead is saved to one sheet, inbox or CRM.</p></div>
+            <div class="flow-step"><span>04</span><h4>The reply</h4><p>An instant response and a clear next step follow.</p></div>
+            <div class="flow-step"><span>05</span><h4>The follow-up</h4><p>The team sees it, owns it and follows through.</p></div>
+          </div>
+          <p>Imagine an enquiry that arrives at 9pm. The website captures it, automation adds it to the enquiry sheet, sends a short WhatsApp acknowledgement, and places a reminder in the team's morning list. Nobody had to be awake for the first three steps — and nothing was lost overnight.</p>
+          <p>That is the real value of an integrated setup: not more technology, but fewer places for the work to fall between.</p>
+        </div>
+      </section>
+
+      <!-- 05 BENEFITS -->
+      <section class="guide-section" id="benefits" aria-labelledby="benefitsHead">
+        <div class="guide-side">
+          <p class="guide-num">05 / The benefits</p>
+          <h2 id="benefitsHead">Why use both?</h2>
+          <p class="guide-note">A calmer business on the inside; a smoother experience on the outside.</p>
+        </div>
+        <div class="guide-content reveal">
+          <p class="guide-statement">The benefits of using automation inside a website come down to one idea: the visitor is never left waiting, and the team is never left guessing.</p>
+          <div class="benefit-grid">
+            <div class="benefit"><span>01</span><h3>Faster first replies</h3><p>An instant acknowledgement sets the tone and tells a customer their enquiry has been seen.</p></div>
+            <div class="benefit"><span>02</span><h3>No enquiry left behind</h3><p>Every form and message lands somewhere permanent instead of in a single inbox or a notebook.</p></div>
+            <div class="benefit"><span>03</span><h3>One source of truth</h3><p>Your team works from the same record, so details and follow-ups stay consistent.</p></div>
+            <div class="benefit"><span>04</span><h3>Less repetitive admin</h3><p>Copying, sorting and reminding happen quietly in the background, giving time back to real work.</p></div>
+            <div class="benefit"><span>05</span><h3>A consistent experience</h3><p>After hours, weekends and busy days all receive the same careful first response.</p></div>
+            <div class="benefit"><span>06</span><h3>Room to grow</h3><p>Add services, tiers or team members without rebuilding the way enquiries are handled.</p></div>
+          </div>
+
+          <div class="panel guide-cta">
+            <p class="kicker">From reading to building</p>
+            <h3>Start with the smallest system that does the job.</h3>
+            <p>We will look at how enquiries reach you today and recommend the simplest website, automation or integrated setup for your context — with a fixed, written quote.</p>
+            <div class="guide-actions">
+              <a class="btn btn-light" href="pricing.html" data-transition>View our charges
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="https://wa.me/917302705904?text=Hi%20ISHVREN%2C%20I%20read%20your%20guide%20and%20would%20like%20to%20talk." target="_blank" rel="noopener">Talk on WhatsApp
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3 13 13 3M5 3h8v8"/></svg>
+              </a>
+            </div>
+            <p class="guide-small">Prefer email? <a href="mailto:nexbrocode@gmail.com">nexbrocode@gmail.com</a> &nbsp;·&nbsp; Phone / WhatsApp <a href="tel:+917302705904">7302705904</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>© ISHVREN</strong><span>The guide · websites &amp; automation</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a><span class="sep" aria-hidden="true"></span>
+        <a href="pricing.html">Charges</a><span class="sep" aria-hidden="true"></span>
+        <a href="index.html#contact">Contact</a><span class="sep" aria-hidden="true"></span>
+        <a href="https://instagram.com/ishvren.tech" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cursor cursor-inner" id="cursorInner" aria-hidden="true"></div>
+<div class="cursor cursor-outer" id="cursorOuter" aria-hidden="true"></div>
+<div class="page-veil" aria-hidden="true"></div>
+
+<script>
+/* ============================================================
+   ISHVREN — interface behaviour (guide page)
+   Page veil · letter reveal · scroll progress · menu · cursor
+   ============================================================ */
+(function () {
+  'use strict';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const root = document.documentElement;
+  const body = document.body;
+
+  /* page veil */
+  body.classList.add('veil-brand');
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    body.classList.add('ready');
+    setTimeout(() => body.classList.remove('veil-brand'), 700);
+  }));
+
+  /* per-letter blur reveal, preserving inline accents */
+  function splitTitle(el) {
+    if (!el || reduced || el.dataset.splitDone) return;
+    const label = el.textContent.replace(/\s+/g, ' ').trim();
+    el.setAttribute('aria-label', label);
+    let i = 0;
+    function walk(node) {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.textContent;
+          if (!text) return;
+          const frag = document.createDocumentFragment();
+          text.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); i++; return; }
+            const word = document.createElement('span');
+            word.className = 'word';
+            [...part].forEach((ch) => {
+              const char = document.createElement('span');
+              char.className = 'char';
+              char.textContent = ch;
+              char.style.setProperty('--d', (i * 0.035).toFixed(3) + 's');
+              word.appendChild(char);
+              i++;
+            });
+            frag.appendChild(word);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          walk(child);
+        }
+      });
+    }
+    walk(el);
+    el.dataset.splitDone = 'true';
+  }
+  document.querySelectorAll('[data-split]').forEach(splitTitle);
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('[data-split], .reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('[data-split], .reveal').forEach((el) => el.classList.add('is-in'));
+  }
+
+  /* scroll progress + header state */
+  const header = document.getElementById('siteHeader');
+  let ticking = false;
+  function onScroll() {
+    const max = Math.max(1, root.scrollHeight - window.innerHeight);
+    const p = Math.min(1, Math.max(0, window.scrollY / max));
+    root.style.setProperty('--sp', p.toFixed(4));
+    if (header) header.classList.toggle('scrolled', window.scrollY > 12);
+  }
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { onScroll(); ticking = false; });
+  }, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+
+  /* mobile menu */
+  const menuBtn = document.querySelector('.menu-btn');
+  const menu = document.getElementById('menuOverlay');
+  function setMenu(open) {
+    if (!menuBtn || !menu) return;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.classList.toggle('open', open);
+    menu.setAttribute('aria-hidden', String(!open));
+    body.classList.toggle('menu-open', open);
+  }
+  menuBtn?.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 1100) setMenu(false); });
+
+  /* double-ring cursor */
+  if (finePointer && !reduced) {
+    const inner = document.getElementById('cursorInner');
+    const outer = document.getElementById('cursorOuter');
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let ox = mx, oy = my, visible = false;
+    if (inner && outer) {
+      body.classList.add('has-cursor');
+      inner.classList.add('is-hidden');
+      outer.classList.add('is-hidden');
+      inner.style.transition = 'opacity .3s ease';
+      const loop = () => {
+        ox += (mx - ox) * 0.16;
+        oy += (my - oy) * 0.16;
+        outer.style.transform = 'translate3d(' + ox + 'px,' + oy + 'px,0)';
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+      window.addEventListener('pointermove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        inner.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+        if (!visible) {
+          visible = true;
+          inner.classList.remove('is-hidden');
+          outer.classList.remove('is-hidden');
+        }
+      }, { passive: true });
+      document.addEventListener('pointerover', (e) => {
+        if (e.target.closest('a, button, input, select, textarea, label, summary')) outer.classList.add('is-hover');
+      });
+      document.addEventListener('pointerout', (e) => {
+        if (e.target.closest('a, button, input, select, textarea, label, summary')) outer.classList.remove('is-hover');
+      });
+      document.addEventListener('pointerleave', () => {
+        inner.classList.add('is-hidden'); outer.classList.add('is-hidden'); visible = false;
+      });
+      document.addEventListener('pointerenter', () => {
+        inner.classList.remove('is-hidden'); outer.classList.remove('is-hidden'); visible = true;
+      });
+    }
+  }
+
+  /* fade between pages */
+  document.querySelectorAll('a[href]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+      let url;
+      try { url = new URL(link.href, location.href); } catch (err) { return; }
+      if (url.origin !== location.origin) return;
+      if (!/\.html?$/.test(url.pathname) || url.pathname === location.pathname) return;
+      if (reduced) return;
+      e.preventDefault();
+      body.classList.add('leaving', 'veil-brand');
+      setTimeout(() => { window.location.href = link.href; }, 430);
+    });
+  });
+  window.addEventListener('pageshow', () => {
+    body.classList.remove('leaving');
+    body.classList.add('ready');
+  });
+})();
+</script>
+
+<script type="module">
+/* ============================================================
+   ISHVREN — guide WebGL stage
+   Shader + forge sparks only (no model), matching pricing.html
+   Three.js r0.160 · ES modules via importmap
+   ============================================================ */
+import * as THREE from 'three';
+
+const canvas = document.getElementById('webgl');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function webglFail(reason) {
+  console.warn('ISHVREN · WebGL stage falling back to CSS gradient:', reason);
+  document.body.classList.remove('webgl-ready');
+  if (canvas) canvas.style.display = 'none';
+}
+
+function boot() {
+  if (!canvas || !window.WebGLRenderingContext) { webglFail('WebGL not supported'); return; }
+
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+  } catch (error) { webglFail(error); return; }
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.autoClear = false;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 2.2;
+  renderer.setClearColor(0x000000, 1);
+
+  /* background shader */
+  const bgScene = new THREE.Scene();
+  const bgCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const bgUniforms = {
+    uTime: { value: 0 },
+    uScroll: { value: 0 },
+    uVel: { value: 0 },
+    uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+  };
+
+  const bgMaterial = new THREE.ShaderMaterial({
+    uniforms: bgUniforms,
+    depthTest: false,
+    depthWrite: false,
+    vertexShader: /* glsl */`
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */`
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uTime;
+      uniform float uScroll;
+      uniform float uVel;
+      uniform vec2 uRes;
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+
+      void main() {
+        vec2 p = vUv * 2.0 - 1.0;
+        p.x *= uRes.x / max(uRes.y, 1.0);
+
+        float shift = smoothstep(0.02, 0.88, uScroll);
+        vec3 crest = mix(vec3(0.45, 0.30, 0.18), vec3(0.18, 0.35, 0.55), shift);
+        vec3 wave1 = mix(vec3(0.085, 0.040, 0.015), vec3(0.015, 0.035, 0.065), shift);
+        vec3 wave2 = mix(vec3(0.240, 0.135, 0.062), vec3(0.055, 0.130, 0.230), shift);
+        vec3 wave3 = mix(vec3(0.680, 0.455, 0.250), vec3(0.360, 0.600, 0.820), shift);
+
+        float t = uTime * 0.08;
+        float s = uScroll * 5.0;
+        float v = uVel * 0.35;
+
+        vec2 d1 = vec2(cos(0.6), sin(0.6));
+        vec2 d2 = vec2(cos(-0.7), sin(-0.7));
+        vec2 d3 = vec2(cos(1.2), sin(1.2));
+        float w1 = sin(dot(p, d1) * 2.4 + t * 1.10 + s * 0.34);
+        float w2 = sin(dot(p, d2) * 3.2 - t * 0.85 + s * 0.52);
+        float w3 = sin(dot(p, d3) * 4.0 + t * 0.65 + s * 0.23);
+        float wave = w1 * 0.5 + w2 * 0.3 + w3 * 0.2;
+        wave += 0.10 * sin((p.x * 1.6 + p.y * 0.9) * 2.0 - t * 0.9 + v);
+
+        float h = 0.5 + 0.5 * wave;
+        float body = smoothstep(0.16, 0.96, h);
+        vec3 col = mix(wave1, wave2, smoothstep(0.02, 0.62, h));
+        col = mix(col, crest * 0.92, smoothstep(0.56, 0.99, body));
+
+        float ripple = sin((h + 0.09) * 34.0 - t * 2.0 + v);
+        col += wave3 * pow(smoothstep(0.55, 1.0, ripple), 12.0) * 0.16;
+        col += crest * pow(smoothstep(0.70, 1.0, h), 4.0) * 0.85;
+        col *= 0.40 + 0.60 * smoothstep(0.04, 0.95, h);
+        col *= 0.86 + 0.26 * (1.0 - vUv.y);
+
+        vec2 q = (vUv - 0.5) * vec2(1.42, 1.18);
+        float vig = smoothstep(1.02, 0.24, length(q));
+        col *= mix(0.16, 1.0, vig);
+        col *= 0.94;
+        col += (hash(gl_FragCoord.xy * 1.31 + fract(t) * 87.0) - 0.5) * 0.020;
+        gl_FragColor = vec4(max(col, vec3(0.0)), 1.0);
+      }
+    `
+  });
+  bgScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), bgMaterial));
+
+  /* spark scene */
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(0, 0.5, 10);
+
+  const sparkCount = window.innerWidth < 768 ? 200 : 450;
+  const sparkUniforms = {
+    uTime: { value: 0 },
+    uVel: { value: 0 },
+    uPixelRatio: { value: renderer.getPixelRatio() },
+    uHeight: { value: window.innerHeight }
+  };
+
+  function buildSparks(count) {
+    const positions = new Float32Array(count * 3);
+    const tints = new Float32Array(count * 3);
+    const phases = new Float32Array(count);
+    const scales = new Float32Array(count);
+    const fire = [0xff8a3d, 0xffb066, 0xff6b35];
+    const ice = [0xbfe4ff, 0x8fc7ea, 0xeaf7ff];
+    const tint = new THREE.Color();
+
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() * 2 - 1) * 10.5;
+      positions[i * 3 + 1] = Math.random() * 12 - 6;
+      positions[i * 3 + 2] = Math.random() * 10 - 8;
+      const palette = Math.random() < 0.6 ? fire : ice;
+      tint.setHex(palette[Math.floor(Math.random() * palette.length)]);
+      tints[i * 3] = tint.r;
+      tints[i * 3 + 1] = tint.g;
+      tints[i * 3 + 2] = tint.b;
+      phases[i] = Math.random();
+      scales[i] = 0.6 + Math.random() * 1.4;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('aTint', new THREE.BufferAttribute(tints, 3));
+    geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+    geometry.setAttribute('aScale', new THREE.BufferAttribute(scales, 1));
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: sparkUniforms,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: /* glsl */`
+        uniform float uTime;
+        uniform float uVel;
+        uniform float uPixelRatio;
+        uniform float uHeight;
+        attribute vec3 aTint;
+        attribute float aPhase;
+        attribute float aScale;
+        varying vec3 vTint;
+        varying float vAlpha;
+
+        void main() {
+          vec3 pos = position;
+          float rise = mod(pos.y + 6.0 + uTime * (0.11 + aPhase * 0.13), 12.0) - 6.0;
+          pos.y = rise;
+          pos.x += sin(uTime * 0.24 + aPhase * 23.0) * (0.22 + aPhase * 0.5);
+          pos.x += sin(uTime * 0.07 + aPhase * 8.0) * 0.45;
+          pos.z += cos(uTime * 0.17 + aPhase * 14.0) * 0.32;
+          float turbulence = uVel * (0.55 + aPhase * 0.9);
+          pos.x += sin(uTime * 1.7 + aPhase * 41.0) * turbulence * 0.5;
+          pos.y += cos(uTime * 1.4 + aPhase * 29.0) * turbulence * 0.3;
+
+          vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+          gl_Position = projectionMatrix * mv;
+          float sizePx = (0.025 * aScale * uPixelRatio) * (uHeight * 0.5 / tan(radians(19.0))) / max(1.0, -mv.z);
+          gl_PointSize = clamp(sizePx, 1.0, 7.0);
+          float depthFade = smoothstep(-26.0, -5.0, mv.z);
+          vAlpha = (0.28 + aPhase * 0.55) * depthFade;
+          vTint = aTint;
+        }
+      `,
+      fragmentShader: /* glsl */`
+        precision highp float;
+        varying vec3 vTint;
+        varying float vAlpha;
+        void main() {
+          float d = length(gl_PointCoord - vec2(0.5));
+          float core = smoothstep(0.5, 0.0, d);
+          float alpha = pow(core, 1.6) * vAlpha;
+          if (alpha < 0.01) discard;
+          gl_FragColor = vec4(vTint, alpha);
+        }
+      `
+    });
+
+    const points = new THREE.Points(geometry, material);
+    points.frustumCulled = false;
+    return points;
+  }
+
+  const sparks = buildSparks(reducedMotion ? 0 : sparkCount);
+  if (reducedMotion) sparks.geometry.dispose();
+  else scene.add(sparks);
+
+  /* scroll & render loop */
+  let smoothScroll = window.scrollY;
+  let lastScroll = smoothScroll;
+  let smoothVelocity = 0;
+  let rafId = 0;
+
+  function draw(elapsed) {
+    const target = window.scrollY;
+    smoothScroll += (target - smoothScroll) * 0.025;
+    if (Math.abs(target - smoothScroll) < 0.05) smoothScroll = target;
+    const delta = target - lastScroll;
+    lastScroll = target;
+    smoothVelocity += (Math.min(4, Math.abs(delta) * 0.06) - smoothVelocity) * 0.08;
+
+    const docMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const docProgress = Math.min(1, Math.max(0, smoothScroll / docMax));
+
+    bgUniforms.uTime.value = elapsed;
+    bgUniforms.uScroll.value = docProgress;
+    bgUniforms.uVel.value = smoothVelocity;
+    sparkUniforms.uTime.value = elapsed;
+    sparkUniforms.uVel.value = smoothVelocity;
+
+    camera.position.x = Math.sin(elapsed * 0.045) * 0.35;
+    camera.position.y = 0.5 + Math.sin(elapsed * 0.038) * 0.16;
+    camera.position.z = 10;
+    camera.lookAt(0, 0, 0);
+
+    renderer.clear(true, true, true);
+    renderer.render(bgScene, bgCamera);
+    renderer.render(scene, camera);
+  }
+
+  function frame(now) {
+    draw(now * 0.001);
+    rafId = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (reducedMotion) return;
+    if (!rafId) rafId = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+  }
+
+  function resize() {
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    bgUniforms.uRes.value.set(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    sparkUniforms.uPixelRatio.value = renderer.getPixelRatio();
+    sparkUniforms.uHeight.value = window.innerHeight;
+    if (reducedMotion) draw(0);
+  }
+
+  window.addEventListener('resize', resize);
+  canvas.addEventListener('webglcontextlost', (event) => {
+    event.preventDefault();
+    stop();
+    webglFail('context lost');
+  }, false);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else if (!reducedMotion) start();
+  });
+
+  try {
+    resize();
+    if (reducedMotion) draw(0);
+    else start();
+    document.body.classList.add('webgl-ready');
+  } catch (error) {
+    webglFail(error);
+  }
+}
+
+try {
+  boot();
+} catch (error) {
+  webglFail(error);
+}
+</script>
+</body>
+</html>
